@@ -8,4 +8,8 @@ class HomeController
     {
         echo "Home Page";
     }
+    public static function about()
+    {
+        echo "About page";
+    }
 }

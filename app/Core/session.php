@@ -26,7 +26,7 @@ class Session
     {
         if(isset($_SESSION[$key]))
         {
-            unset($_session[$key]);
+            unset($_SESSION[$key]);
         }
     }
     //destroy session
