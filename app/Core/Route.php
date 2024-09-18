@@ -8,8 +8,21 @@ class Route
     //route handler
     public static function routeHandler($uri, $controlArgs, $method)
     {
+        if(preg_match_all('/\{[a-zA-Z0-9]+\}/', $uri, $matches))
+        {
+            $uri2 = preg_replace('/\{[a-zA-Z0-9]+\}/', '[a-zA-Z0-9]', $uri);
+            $uri2 = str_replace('/', '\/', $uri2);
+            $uri2 = '/^'.$uri2.'$/';
+        }
+        else
+        {
+            $uri2 = $uri;
+            $matches = false;
+        }
         self::$routes[] = [
             'uri' => $uri,
+            'preg' => $uri2,
+            '$matches' => $matches,
             'controlArgs' => $controlArgs,
             'method' => $method
         ];
