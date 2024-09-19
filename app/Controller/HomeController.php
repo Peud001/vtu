@@ -12,4 +12,9 @@ class HomeController
     {
         echo "About page";
     }
+    //contact
+    public static function contact()
+    {
+        echo "Contact page";
+    }
 }

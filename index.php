@@ -1,9 +1,10 @@
 <?php
+
+use App\Core\Request;
 use App\Core\Session;
 require 'vendor/autoload.php';
 require 'app/route.php';
 //route
-
 
 // echo '<pre>';
 // var_dump(App\Core\Request::uri());

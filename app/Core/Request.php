@@ -22,7 +22,7 @@ class Request
             {
                 $t= substr($t, strlen($b));
             }
-            return $t ?: '/';
+            return $t? $t : '/';
         }
         else
         {
