@@ -1,16 +1,7 @@
 <?php
 
-use App\Core\Request;
-use App\Core\Session;
 require 'vendor/autoload.php';
 require 'app/route.php';
-//route
 
-// echo '<pre>';
-// var_dump(App\Core\Request::uri());
-// echo '</pre>';
+//echo App\Core\Request::base();
 
-//$session = new Session;
-//$session->set('name', 'John Doe');
-//$session->destroy('name');
-//echo $session->get('name');
