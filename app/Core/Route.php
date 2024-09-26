@@ -33,9 +33,9 @@ class Route
         if(preg_match_all('/\{[a-zA-Z0-9-_@]+\}/', $uri, $matches))
         {
             //convert to dynamic regex
-            $uri2 = preg_replace('/\{[a-zA-Z0-9-_@]+\}/', '([a-zA-Z0-9-_@])', $uri);
+            $uri2 = preg_replace('/\{[a-zA-Z0-9-_@]+\}/', '([a-zA-Z0-9-_@]+)', $uri);
             //escape
-            $uri2 = str_replace('/','\/', $uri2);
+            $uri2 = str_replace('/', '\/', $uri2);
             //add start and end
             $uri2 = '/^'.$uri2.'$/';
             //pass as a variable
@@ -43,22 +43,25 @@ class Route
             // //loop through matches
             foreach($matches[0] as $match){
                 $match = str_replace(['{', '}'], '', $match);
-                $matches_data[$matches] = null;
+                $matches_data[$match] = null;
             }
             if (preg_match($uri2, Request::uri(), $matches)){
-                //remove first match
-                array_shift($matches);
-                //loop through matches
-                foreach($matches as $key => $match){
-                    //add to array
-                    $matches_data[$key] = $match;
+                if(class_exists($controlArgs[0])){
+                    if(method_exists($controlArgs[0], $controlArgs[1])){
+                        array_shift($matches);
+                        $matches = array_combine(array_keys(($matches_data)), $matches);
+                    }
+                    $controller = new $controlArgs[0];
+                    $controller->{$controlArgs[1]}(
+                        new Request,
+                        $matches
+                    );
                 }
-                //return
-                return $matches_data;
             } else {
                 return false;
             }
         }else{
+            self::classNotFound([$controlArgs[0]]);
             return false;
         }
     }
@@ -125,9 +128,9 @@ class Route
                     if ($route['method'] == $method || $route['method'] == "ANY") {
                         //Do a validation
                         $validate = self::validateUrl($route['uri'], $route['controlArgs']);
-                        // echo '<pre>';
-                        // var_dump($validate);
-                        // echo '</pre>';
+                        echo '<pre>';
+                        var_dump($validate);
+                        echo '</pre>';
                     } else {
                         self::notFoundHeader();
                     }
